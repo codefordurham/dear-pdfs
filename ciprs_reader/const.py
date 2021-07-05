@@ -1,4 +1,12 @@
 # pylint: disable=too-few-public-methods
+from enum import IntEnum
+
+
+class ParserMode(IntEnum):
+    V1 = 1
+    V2 = 2
+
+
 class Section:
     """Section headers within a CIPRS record."""
 

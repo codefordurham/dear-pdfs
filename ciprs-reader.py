@@ -4,6 +4,7 @@ import sys
 
 from ciprs_reader import VERSION
 from ciprs_reader.reader import PDFToTextReader
+from ciprs_reader.const import ParserMode
 
 
 if __name__ == "__main__":
@@ -18,6 +19,7 @@ if __name__ == "__main__":
         help="increases log verbosity for each occurence.",
     )
     parser.add_argument("--source", help="Include full source in JSON output", action="store_true")
+    parser.add_argument("--mode", help="Parse mode", type=int, default=ParserMode.V1)
     parser.add_argument("--version", action="version", version="%(prog)s " + VERSION)
 
     args = parser.parse_args()
@@ -29,6 +31,6 @@ if __name__ == "__main__":
     logger.setLevel(max(3 - args.verbose_count, 0) * 10)
 
     logger.info("Running ciprs-reader on %s", args.input)
-    reader = PDFToTextReader(args.input)
+    reader = PDFToTextReader(args.input, mode=args.mode)
     reader.parse(save_source=args.source)
     print(reader.json())

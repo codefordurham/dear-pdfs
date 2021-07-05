@@ -1,6 +1,7 @@
 import json
 import logging
 
+from ciprs_reader.const import ParserMode
 from ciprs_reader.parser.state import ParserState
 from ciprs_reader.parser.models import Offenses
 from ciprs_reader.reader.parsers import DOCUMENT_PARSERS, LINE_PARSERS
@@ -13,13 +14,14 @@ logger = logging.getLogger(__name__)
 class PDFToTextReader:
     """Prase CIPRS Summary records into entity-extract JSON."""
 
-    def __init__(self, path):
+    def __init__(self, path, mode=ParserMode.V1):
         self.path = path
         self.records = []
+        self.mode = mode
 
     def parse(self, save_source=False):
-        for source in util.multi_summary_record_reader(self.path):
-            reader = SummaryRecordReader(source)
+        for source in util.multi_summary_record_reader(self.path, mode=self.mode):
+            reader = SummaryRecordReader(source, mode=self.mode)
             record = reader.parse(save_source)
             self.records.append(record)
 
@@ -31,7 +33,7 @@ class PDFToTextReader:
 class SummaryRecordReader:
     """Read through Summary record and perform entity extraction using parsers."""
 
-    def __init__(self, text):
+    def __init__(self, text, mode=ParserMode.V1):
         self.text = text
         # skelton JSON structure for parser-extracted entities
         self.report = {
@@ -52,6 +54,7 @@ class SummaryRecordReader:
         # document parsers are run once against an entire document
         for parser in DOCUMENT_PARSERS:
             self.document_parsers.append(parser(self.report, self.state))
+        self.mode = mode
 
     def parse(self, save_source=False):
         logger.debug("pdftotext: %s", self.text)
