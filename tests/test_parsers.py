@@ -33,3 +33,10 @@ def test_court_type_crs(report, state):
     assert parser.matches is not None, "Regex match failed"
     assert parser.matches == {"Superior": "Yes"}
     assert report["General"]["Superior"] == "Yes"
+
+
+def test_additional_offenses(report, state):
+    string = """ ***    Additional offenses exist. To see a complete breakdown, view full case detail. * * * """
+    matches = parsers.AdditionalOffenses(report, state).match(string)
+    assert matches is not None, "Regex match failed"
+    assert matches["value"]

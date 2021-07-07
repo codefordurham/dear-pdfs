@@ -35,4 +35,5 @@ LINE_PARSERS = (
 DOCUMENT_PARSERS = (
     lines.DefendentDOB,
     lines.DistrictSuperiorCourt,
+    lines.AdditionalOffenses,
 )

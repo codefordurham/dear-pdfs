@@ -46,3 +46,13 @@ class DistrictSuperiorCourt(Parser):
 
     def extract(self, matches, report):
         report["General"].update(matches)
+
+
+class AdditionalOffenses(Parser):
+    pattern = r".*(?P<value>Additional offenses exist. To see a complete breakdown, view full case detail.).*"
+    section = ("General", "Additional Offenses Exist")
+    is_line_parser = False
+
+    def clean(self, matches):
+        matches["value"] = True
+        return matches
