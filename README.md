@@ -7,7 +7,7 @@ Add pdf file to parse in /ignore folder then run:
 
 ```bash
 docker build -t ciprs-reader .
-docker run -v "${PWD}:/usr/src/app" ciprs-reader python ciprs-reader.py ignore/cypress-example.pdf
+docker run --rm -v "${PWD}:/usr/src/app" ciprs-reader python ciprs-reader.py ignore/cypress-example.pdf
 ```
 
 Example output:

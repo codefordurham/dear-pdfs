@@ -12,7 +12,7 @@ class HeaderParser(Parser):
 class CaseDetails(HeaderParser):
     """Extract County and File No from header on top of first page"""
 
-    pattern = r"\s*Case (Details|Summary) for Court Case[\s:]+(?P<county>.+) (?P<fileno>\w+)"
+    pattern = r"\s*Case (Details|Summary) for Court \s*Case[\s:]+(?P<county>.+) (?P<fileno>\w+)"
 
     def extract(self, matches, report):
         report["General"]["County"] = matches["county"]

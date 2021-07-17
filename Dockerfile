@@ -1,7 +1,6 @@
-FROM python:3
+FROM python:3.8
 
-RUN curl https://xpdfreader-dl.s3.amazonaws.com/old/xpdf-3.04.tar.gz | tar xz
-RUN chmod -R 755 ./xpdf-3.04 && cd ./xpdf-3.04/ && ./configure && make && make install
+RUN curl https://dl.xpdfreader.com/xpdf-tools-linux-4.03.tar.gz | tar -xz -C /usr/local/bin/ --strip-components=2 xpdf-tools-linux-4.03/bin64
 
 WORKDIR /usr/src/app
 COPY ./requirements.txt /requirements.txt

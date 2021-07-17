@@ -96,3 +96,10 @@ def test_offense_record_row__enabled(section, report, state):
     state.offense_num = 1
     state.section = section
     assert offense.OffenseRecordRow(report, state).is_enabled()
+
+
+def test_find__not_enabled(report, state):
+    report = {"Defendant": {"Sex": None}}
+    state.section = Section.HEADER
+    defendant.DefendantSex(report, state).find("Sex: FEMALE")
+    assert report["Defendant"]["Sex"] is None

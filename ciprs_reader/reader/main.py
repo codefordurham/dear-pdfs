@@ -3,7 +3,7 @@ import logging
 
 from ciprs_reader.parser.state import ParserState
 from ciprs_reader.parser.models import Offenses
-from ciprs_reader.reader.parsers import DOCUMENT_PARSERS, LINE_PARSERS
+from ciprs_reader.reader.parsers import DOCUMENT_PARSERS, LINE_PARSERS, LARK_PARSERS
 from ciprs_reader.reader import util
 
 
@@ -48,9 +48,13 @@ class SummaryRecordReader:
         self.line_parsers = []
         for parser in LINE_PARSERS:
             self.line_parsers.append(parser(self.report, self.state))
+
         self.document_parsers = []
         # document parsers are run once against an entire document
         for parser in DOCUMENT_PARSERS:
+            self.document_parsers.append(parser(self.report, self.state))
+
+        for parser in LARK_PARSERS:
             self.document_parsers.append(parser(self.report, self.state))
 
     def parse(self, save_source=False):

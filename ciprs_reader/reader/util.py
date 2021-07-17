@@ -4,7 +4,7 @@ import subprocess
 def convert_to_text(path):
     """Convert PDF to text using pdftotext library."""
     run = subprocess.run(
-        f"pdftotext -layout -enc UTF-8 {path} -",
+        f"pdftotext -table -enc UTF-8 {path} -",
         check=True,
         shell=True,
         stdout=subprocess.PIPE,
@@ -20,11 +20,11 @@ def multi_summary_record_reader(path):
     method splits records up for individual processing.
     """
     text = convert_to_text(path)
-    records = text.split("Case Summary for Court Case")
+    records = text.split("Case Summary for Court")
     # trim any short records (probably just header text)
     records = [x for x in records if len(x) > 1000]
     # re-add text that was used to split to each record
-    records = ["Case Summary for Court Case" + x for x in records]
+    records = ["Case Summary for Court" + x for x in records]
     for record in records:
         yield record
 
